@@ -538,25 +538,6 @@
                         <option value="2">Downsloping</option>
                     </select>
                 </div>
-                <div class="field">
-                    <label>Thalassemia</label>
-                    <select name="thal" id="thal" required>
-                        <option value="" disabled selected>— Select —</option>
-                        <option value="1">Normal</option>
-                        <option value="2">Fixed Defect</option>
-                        <option value="3">Reversible Defect</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Major Vessels <span class="unit">0–3</span></label>
-                    <select name="ca" id="ca" required>
-                        <option value="" disabled selected>— Select —</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
             </div>
 
             <hr class="divider">
@@ -600,16 +581,14 @@
             <div class="result-title" id="resultTitle">Result</div>
         </div>
         <div class="result-note">
-            This prediction is based on a machine learning model trained on the Cleveland Heart Disease dataset.
+            This prediction is based on a machine learning model trained on the Kaggle Heart Failure Prediction dataset.
             Always consult a qualified medical professional for clinical decisions.
         </div>
     </div>
 
-    <!-- Django: template rendering equivalent as inline demo logic -->
+    <!-- Django: template rendering -->
     <script>
-        {% verbatim %}
-        // Simulate result display if Django passes a result value
-        // In production this would be rendered server-side via {% if result %}
+        // Display result if Django passes a result value
         const djangoResult = "{{ result|default:'' }}";
 
         function showResult(text) {
@@ -617,7 +596,7 @@
             const title = document.getElementById('resultTitle');
             if (!text) return;
             title.textContent = text;
-            if (text.toLowerCase().includes('no disease') || text.toLowerCase().includes('negative') || text.toLowerCase().includes('low')) {
+            if (text.toLowerCase().includes('no heart disease')) {
                 panel.className = 'result-panel low-risk';
             } else {
                 panel.className = 'result-panel high-risk';
@@ -626,25 +605,9 @@
 
         if (djangoResult && djangoResult.trim()) {
             showResult(djangoResult.trim());
+            const panel = document.getElementById('resultPanel');
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-
-        // Demo: simulate result for preview
-        document.getElementById('predictForm').addEventListener('submit', function(e) {
-            // Only for preview — remove this block in production Django setup
-            if (djangoResult === '') {
-                e.preventDefault();
-                const outcomes = [
-                    { text: 'Low Risk — No Disease Detected', cls: 'low-risk' },
-                    { text: 'High Risk — Heart Disease Detected', cls: 'high-risk' }
-                ];
-                const pick = outcomes[Math.floor(Math.random() * outcomes.length)];
-                const panel = document.getElementById('resultPanel');
-                document.getElementById('resultTitle').textContent = pick.text;
-                panel.className = 'result-panel ' + pick.cls;
-                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-        {% endverbatim %}
     </script>
 
 </div>

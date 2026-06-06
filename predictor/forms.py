@@ -12,5 +12,3 @@ class HeartForm(forms.Form):
     exang = forms.IntegerField()
     oldpeak = forms.FloatField()
     slope = forms.IntegerField()
-    ca = forms.IntegerField()
-    thal = forms.IntegerField()
