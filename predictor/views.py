@@ -5,6 +5,7 @@ import joblib
 import os
 import pandas as pd
 
+
 # Load model using settings.BASE_DIR for robust absolute path resolution
 model_path = os.path.join(settings.BASE_DIR, "ml", "heart_model.pkl")
 model = joblib.load(model_path)
